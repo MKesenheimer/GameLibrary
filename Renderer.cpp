@@ -3,18 +3,25 @@
 #include <iostream>
 
 void Renderer::drawObject(const Object& object, SDL_Renderer *ren) {
-    Point point = object.getPoint(1);
-    int xp_old = (int)(point.x);
-    int yp_old = (int)(point.y);
-    for (int i = 2; i < object.npoints(); ++i) {
-        point = object.getPoint(i);
-        //filledEllipseRGBA(ren, xp, yp, 0, 0, 0, 0, 0, 255);
-        /*if (point.r == 255 && point.g == 255 && point.b == 255)
-            lineRGBA(ren, (int)point.x, (int)point.y, xp_old, yp_old, 0, 0, 0, 255);
-        else*/
-        lineRGBA(ren, (int)point.x, (int)point.y, xp_old, yp_old, point.r, point.g, point.b, point.a);
-        xp_old = (int)point.x;
-        yp_old = (int)point.y;
+    //std::cout << object.npoints() << std::endl;
+    if (object.npoints() > 1) {
+        Point point = object.getPoint(1);
+        int xp_old = (int)(point.x);
+        int yp_old = (int)(point.y);
+        for (int i = 2; i < object.npoints(); ++i) {
+            point = object.getPoint(i);
+            //filledEllipseRGBA(ren, xp, yp, 0, 0, 0, 0, 0, 255);
+            /*if (point.r == 255 && point.g == 255 && point.b == 255)
+                lineRGBA(ren, (int)point.x, (int)point.y, xp_old, yp_old, 0, 0, 0, 255);
+            else*/
+            lineRGBA(ren, (int)point.x, (int)point.y, xp_old, yp_old, point.r, point.g, point.b, point.a);
+            xp_old = (int)point.x;
+            yp_old = (int)point.y;
+        }
+    } else {
+        // if the object consists only of one point, draw a filled circle
+        Point point = object.getPoint(0);
+        filledEllipseRGBA(ren, (int)object.x(), (int)object.y(), (int)(object.hsize() / 2), (int)(object.vsize() / 2), point.r, point.g, point.b, point.a);
     }
 }
 
@@ -36,6 +43,7 @@ void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int 
 }
 
 void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
+    // TODO: if objects consists only of one point (see above)
     if (object.xcenter() >= 0 && object.xcenter() <= SCREEN_WIDTH &&
         object.ycenter() >= 0 && object.ycenter() <= SCREEN_HEIGHT) {
         Point point = object.getPoint(1);

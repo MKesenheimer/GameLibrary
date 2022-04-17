@@ -6,6 +6,7 @@
 Object::Object(float x, float y, float vx, float vy, float hsize, float vsize, float angle, float spin, int mirrorX, int mirrorY) :
     m_x(x), m_y(y), m_vx(vx), m_vy(vy), m_hsize(hsize), m_vsize(vsize), m_phi(angle), m_oldPhi(0.0), m_npoints(0),
     m_spin(spin), m_mirrorX(mirrorX), m_mirrorY(mirrorY) {
+    // the first point is the center point of the object in the world coordinate system
     newPoint(m_x, m_y);
 }
 

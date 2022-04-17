@@ -14,10 +14,6 @@ extern "C" {
 #include "lumax.h"
 }
 
-// Screen dimensions of the SDL screen
-const int SCREEN_WIDTH  = 900;
-const int SCREEN_HEIGHT = 800;
-
 // the Lumax renderer
 struct LumaxRenderer {
     std::vector<Point> points;
@@ -29,6 +25,10 @@ struct LumaxRenderer {
     float scalingY = 1;
 };
 #endif
+
+// Screen dimensions of the SDL screen
+const int SCREEN_WIDTH  = 900;
+const int SCREEN_HEIGHT = 800;
 
 class Renderer {
 public:

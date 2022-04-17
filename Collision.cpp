@@ -4,50 +4,62 @@
 #include <iostream>
 
 bool Collision::checkCollision(const Object& o1, const Object& o2) {
-    bool collided = false;
-    // first check: if the sum of the dimensions of the objects is less
-    // then their distance from center to center -> enable advanced collision detection
-    const float dim1 = dim(o1);
-    const float dim2 = dim(o2);
-    if(dim1 + dim2 >= dist(o1, o2)) {
-        // advanced collision control
-        if(dim1 <= dim2) {
-            // start of line between two points
-            Point start = o2.getPoint(0);
-            for (int i = 1; i < o2.npoints(); ++i) {
-                // end of line
-                Point end = o2.getPoint(i);
-                // number of points on line
-                const int nsteps = (int)(10 * dist(start, end) / dim1);
-                for (int j = 0; j < nsteps; ++j) {
-                    //build new points that lay on the line
-                    float x = start.x + j * (end.x - start.x) / nsteps;
-                    float y = start.y + j * (end.y - start.y) / nsteps;
-                    XYPoint check = {x, y};
-                    if(dist(o1, check) <= dim1) collided = true;
-                }
-                start = end;
-            }
+    // if objects consist only of one point, check their dimensions
+    if (o1.npoints() == 1 && o2.npoints() == 1) {
+        float dim1 = dim(o1);
+        float dim2 = dim(o2);
+        if(dim1 + dim2 >= dist(o1, o2)) {
+          return true;
         } else {
-            // start of line between two points
-            Point start = o1.getPoint(0);
-            for (int i = 1; i < o1.npoints(); ++i) {
-                // end of line
-                Point end = o1.getPoint(i);
-                // number of points on line
-                const int nsteps = (int)(10 * dist(start, end) / dim2);
-                for (int j = 0; j < nsteps; ++j) {
-                    // build new points that lay on the line
-                    float x = start.x + j * (end.x - start.x) / nsteps;
-                    float y = start.y + j * (end.y - start.y) / nsteps;
-                    XYPoint check = {x, y};
-                    if(dist(o2, check) <= dim2) collided = true;
+          return false;
+        }
+    // else, do a more sophisticated collision control
+    } else {
+        bool collided = false;
+        // first check: if the sum of the dimensions of the objects is less
+        // then their distance from center to center -> enable advanced collision detection
+        const float dim1 = dim(o1);
+        const float dim2 = dim(o2);
+        if(dim1 + dim2 >= dist(o1, o2)) {
+            // advanced collision control
+            if(dim1 <= dim2) {
+                // start of line between two points
+                Point start = o2.getPoint(0);
+                for (int i = 1; i < o2.npoints(); ++i) {
+                    // end of line
+                    Point end = o2.getPoint(i);
+                    // number of points on line
+                    const int nsteps = (int)(10 * dist(start, end) / dim1);
+                    for (int j = 0; j < nsteps; ++j) {
+                        //build new points that lay on the line
+                        float x = start.x + j * (end.x - start.x) / nsteps;
+                        float y = start.y + j * (end.y - start.y) / nsteps;
+                        XYPoint check = {x, y};
+                        if(dist(o1, check) <= dim1) collided = true;
+                    }
+                    start = end;
                 }
-                start = end;
+            } else {
+                // start of line between two points
+                Point start = o1.getPoint(0);
+                for (int i = 1; i < o1.npoints(); ++i) {
+                    // end of line
+                    Point end = o1.getPoint(i);
+                    // number of points on line
+                    const int nsteps = (int)(10 * dist(start, end) / dim2);
+                    for (int j = 0; j < nsteps; ++j) {
+                        // build new points that lay on the line
+                        float x = start.x + j * (end.x - start.x) / nsteps;
+                        float y = start.y + j * (end.y - start.y) / nsteps;
+                        XYPoint check = {x, y};
+                        if(dist(o2, check) <= dim2) collided = true;
+                    }
+                    start = end;
+                }
             }
         }
+        return collided;
     }
-    return collided;
 }
 
 float Collision::dist(const Object& o1, const Object& o2) {
@@ -81,16 +93,20 @@ XYPoint Collision::center(const Object& o) {
 }
 
 float Collision::dim(const Object& o) {
-    XYPoint r0 = center(o);
-    float rAbs = 0;
-    for(int i = 1; i < o.npoints(); ++i) {
-        if(o.isCollidable(i)) {
-            Point r = o.getPoint(i);
-            float x = r.x - r0.first;
-            float y = r.y - r0.second;
-            if(rAbs <= sqrt(pow(x, 2) + pow(y, 2)))
-                rAbs = sqrt(pow(x, 2) + pow(y, 2));
+    if (o.npoints() > 1) {
+        XYPoint r0 = center(o);
+        float rAbs = 0;
+        for(int i = 1; i < o.npoints(); ++i) {
+            if(o.isCollidable(i)) {
+                Point r = o.getPoint(i);
+                float x = r.x - r0.first;
+                float y = r.y - r0.second;
+                if(rAbs <= sqrt(pow(x, 2) + pow(y, 2)))
+                    rAbs = sqrt(pow(x, 2) + pow(y, 2));
+            }
         }
+        return rAbs;
+    } else {
+        return o.hsize() / 2;
     }
-    return rAbs;
 }

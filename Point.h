@@ -6,10 +6,9 @@
 #pragma once
 #include <tuple>
 
-typedef std::pair<float, float> Point; 
+typedef std::pair<float, float> XYPoint; 
 
-struct IndexedPoint {
-  size_t index;
+struct Point {
   float x, y;
   int r, g, b, a;
   bool iscollidable;

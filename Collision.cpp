@@ -13,34 +13,34 @@ bool Collision::checkCollision(const Object& o1, const Object& o2) {
         // advanced collision control
         if(dim1 <= dim2) {
             // start of line between two points
-            IndexedPoint start = o2.getPoint(0);
+            Point start = o2.getPoint(0);
             for (int i = 1; i < o2.npoints(); ++i) {
                 // end of line
-                IndexedPoint end = o2.getPoint(i);
+                Point end = o2.getPoint(i);
                 // number of points on line
                 const int nsteps = (int)(10 * dist(start, end) / dim1);
                 for (int j = 0; j < nsteps; ++j) {
                     //build new points that lay on the line
                     float x = start.x + j * (end.x - start.x) / nsteps;
                     float y = start.y + j * (end.y - start.y) / nsteps;
-                    Point check = {x, y};
+                    XYPoint check = {x, y};
                     if(dist(o1, check) <= dim1) collided = true;
                 }
                 start = end;
             }
         } else {
             // start of line between two points
-            IndexedPoint start = o1.getPoint(0);
+            Point start = o1.getPoint(0);
             for (int i = 1; i < o1.npoints(); ++i) {
                 // end of line
-                IndexedPoint end = o1.getPoint(i);
+                Point end = o1.getPoint(i);
                 // number of points on line
                 const int nsteps = (int)(10 * dist(start, end) / dim2);
                 for (int j = 0; j < nsteps; ++j) {
                     // build new points that lay on the line
                     float x = start.x + j * (end.x - start.x) / nsteps;
                     float y = start.y + j * (end.y - start.y) / nsteps;
-                    Point check = {x, y};
+                    XYPoint check = {x, y};
                     if(dist(o2, check) <= dim2) collided = true;
                 }
                 start = end;
@@ -51,41 +51,41 @@ bool Collision::checkCollision(const Object& o1, const Object& o2) {
 }
 
 float Collision::dist(const Object& o1, const Object& o2) {
-    const Point& cen1 = center(o1);
-    const Point& cen2 = center(o2);
+    const XYPoint& cen1 = center(o1);
+    const XYPoint& cen2 = center(o2);
     // calculate the distance of the two objects
     const float dist = sqrt(pow(cen1.first - cen2.first, 2) + pow(cen1.second - cen2.second, 2));
     return dist;
 }
 
-float Collision::dist(const Object& o, const Point& point) {
-    const Point& cen = center(o);
+float Collision::dist(const Object& o, const XYPoint& point) {
+    const XYPoint& cen = center(o);
     const float dist = sqrt(pow(cen.first - point.first, 2) + pow(cen.second - point.second, 2));
     return dist;
 }
 
-float Collision::dist(const Object& o, const IndexedPoint& point) {
-    const Point& cen = center(o);
+float Collision::dist(const Object& o, const Point& point) {
+    const XYPoint& cen = center(o);
     const float dist = sqrt(pow(cen.first - point.x, 2) + pow(cen.second - point.y, 2));
     return dist;
 }
 
-float Collision::dist(const IndexedPoint& point0, const IndexedPoint& point1) {
+float Collision::dist(const Point& point0, const Point& point1) {
     const float dist = sqrt(pow(point0.x - point1.x, 2) + pow(point0.y - point1.y, 2));
     return dist;
 }
 
-Point Collision::center(const Object& o) {
-    const Point temp = {o.x(), o.y()};
+XYPoint Collision::center(const Object& o) {
+    const XYPoint temp = {o.x(), o.y()};
     return temp;
 }
 
 float Collision::dim(const Object& o) {
-    Point r0 = center(o);
+    XYPoint r0 = center(o);
     float rAbs = 0;
     for(int i = 1; i < o.npoints(); ++i) {
         if(o.isCollidable(i)) {
-            IndexedPoint r = o.getPoint(i);
+            Point r = o.getPoint(i);
             float x = r.x - r0.first;
             float y = r.y - r0.second;
             if(rAbs <= sqrt(pow(x, 2) + pow(y, 2)))

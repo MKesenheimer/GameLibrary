@@ -89,7 +89,7 @@ void Object::newPoint(float x, float y, bool iscol) {
 }
 
 void Object::newPoint(float x, float y, int r, int g, int b, int a, bool iscol) {
-    m_points.push_back(IndexedPoint());
+    m_points.push_back(Point());
     if (m_npoints == 0) {
         // center of object
         m_points[0].x = x;
@@ -107,8 +107,8 @@ void Object::newPoint(float x, float y, int r, int g, int b, int a, bool iscol) 
     m_npoints++;
 }
 
-Point Object::getPointXY(int n) const {
-    Point point;
+XYPoint Object::getPointXY(int n) const {
+    XYPoint point;
     if (n >= 0 && n < m_npoints) {
         point.first = m_points[n].x + m_x;
         point.second = m_points[n].y + m_y;
@@ -118,8 +118,8 @@ Point Object::getPointXY(int n) const {
     return point;
 }
 
-IndexedPoint Object::getPoint(int n) const {
-    IndexedPoint point;
+Point Object::getPoint(int n) const {
+    Point point;
     if (n >= 0 && n < m_npoints) {
         point = m_points[n];
         point.x = point.x + m_x;

@@ -20,16 +20,20 @@ public:
     float y() const;
     float xcenter() const;
     float ycenter() const;
+
     // gives the velocity in x- and y-direction of the object
     float vx() const;
     float vy() const;
+
     // get the angle in respect to the y-axis
     float phi() const;
     float spin() const;
+
     // gives the horizontal size
     float hsize() const;
     // gives the verticla size
     float vsize() const;
+
     // get the number of points
     int npoints() const;
     
@@ -37,6 +41,9 @@ public:
     void setPos(float x, float y);
     void setv(float vx, float vy);
     
+    // set the size of the Object
+    void setSize(float hsize, float vsize);
+
     // set the objects angle
     void setAngle(float angle);
     void setSpin(float spin);

@@ -63,6 +63,11 @@ void Object::setv(float vx, float vy) {
     m_vy = vy;
 }
 
+void Object::setSize(float hsize, float vsize) {
+    m_hsize = hsize;
+    m_vsize = vsize;
+}
+
 void Object::setAngle(float angle) {
     m_phi = angle;
     // this algorithm rotates the object every time it is called

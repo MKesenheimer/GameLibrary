@@ -18,7 +18,7 @@ public:
 private:
     //calculates the center of the object formed by the points
     // returns the x- and y- coordinate in a vector
-    static Point center(const Object& o);
+    static XYPoint center(const Object& o);
     
     //returns the length of the largest distance from center
     //this assumed to be the dimension of the object
@@ -26,7 +26,7 @@ private:
     
     //calculate the distance of two objects
     static float dist(const Object& o1, const Object& o2);
-    static float dist(const Object& o, const IndexedPoint& point);
     static float dist(const Object& o, const Point& point);
-    static float dist(const IndexedPoint& point0, const IndexedPoint& point1);
+    static float dist(const Object& o, const XYPoint& point);
+    static float dist(const Point& point0, const Point& point1);
 };

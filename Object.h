@@ -49,8 +49,8 @@ public:
     // if point should be used for collision control
     void newPoint(float x, float y, bool iscol = true);
     void newPoint(float x, float y, int r, int g, int b, int a = 255, bool iscol = true); // with color
-    IndexedPoint getPoint(int n) const;
-    Point getPointXY(int n) const;
+    Point getPoint(int n) const;
+    XYPoint getPointXY(int n) const;
     bool isCollidable(int n) const;
     void modifyPoint(float x, float y, int n);
 
@@ -68,5 +68,5 @@ private:
     float m_spin;
     int m_mirrorX;
     int m_mirrorY;
-    std::vector<IndexedPoint> m_points; // points are defined in the object coordinate system
+    std::vector<Point> m_points; // points are defined in the object coordinate system
 };

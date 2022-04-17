@@ -20,6 +20,8 @@ public:
     float y() const;
     float xcenter() const;
     float ycenter() const;
+    XYPoint getCenterXY() const;
+    Point getCenter() const;
 
     // gives the velocity in x- and y-direction of the object
     float vx() const;

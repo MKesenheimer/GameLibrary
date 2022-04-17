@@ -5,10 +5,7 @@
 
 Object::Object(float x, float y, float vx, float vy, float hsize, float vsize, float angle, float spin, int mirrorX, int mirrorY) :
     m_x(x), m_y(y), m_vx(vx), m_vy(vy), m_hsize(hsize), m_vsize(vsize), m_phi(angle), m_oldPhi(0.0), m_npoints(0),
-    m_spin(spin), m_mirrorX(mirrorX), m_mirrorY(mirrorY) {
-    // the first point is the center point of the object in the world coordinate system
-    newPoint(m_x, m_y);
-}
+    m_spin(spin), m_mirrorX(mirrorX), m_mirrorY(mirrorY) {}
 
 float Object::x() const {
     return m_x;
@@ -24,6 +21,14 @@ float Object::xcenter() const {
 
 float Object::ycenter() const {
     return m_y;
+}
+
+XYPoint Object::getCenterXY() const {
+    return {m_x, m_y};
+}
+
+Point Object::getCenter() const {
+    return {m_x, m_y, 0, 0, 0, 0, true};
 }
 
 float Object::vx() const {
@@ -72,7 +77,7 @@ void Object::setSize(float hsize, float vsize) {
 void Object::setAngle(float angle) {
     m_phi = angle;
     // this algorithm rotates the object every time it is called
-    // so we have to rotate only by the difference of  the old and the
+    // so we have to rotate only by the difference of the old and the
     // new angle
     float dphi = (m_phi - m_oldPhi); //angle in rad /360.0*(2*M_PI)
     for (int i = 0; i < m_npoints; ++i) {
@@ -95,15 +100,9 @@ void Object::newPoint(float x, float y, bool iscol) {
 
 void Object::newPoint(float x, float y, int r, int g, int b, int a, bool iscol) {
     m_points.push_back(Point());
-    if (m_npoints == 0) {
-        // center of object
-        m_points[0].x = x;
-        m_points[0].y = y;
-    } else {
-        // move all object m_points back into the world coordinate system
-        m_points[m_npoints].x = m_hsize * m_mirrorX * x * std::cos(m_phi) - m_hsize * m_mirrorY * y * std::sin(m_phi);
-        m_points[m_npoints].y = m_hsize * m_mirrorX * x * std::sin(m_phi) + m_hsize * m_mirrorY * y * std::cos(m_phi);
-    }
+    // move the points into the world coordinate system
+    m_points[m_npoints].x = m_hsize * m_mirrorX * x * std::cos(m_phi) - m_hsize * m_mirrorY * y * std::sin(m_phi);
+    m_points[m_npoints].y = m_hsize * m_mirrorX * x * std::sin(m_phi) + m_hsize * m_mirrorY * y * std::cos(m_phi);
     m_points[m_npoints].r = r;
     m_points[m_npoints].g = g;
     m_points[m_npoints].b = b;
@@ -131,7 +130,7 @@ Point Object::getPoint(int n) const {
         point.y = point.y + m_y;
         return point;
     }
-    std::cout << "an error occured in Object.cpp: n = " << n << " is not a valid index" << std::endl;
+    std::cout << "an error occured in Object::getPoint: n = " << n << " is not a valid index" << std::endl;
     return point;
 }
 
@@ -139,7 +138,7 @@ Point Object::getPoint(int n) const {
 bool Object::isCollidable(int n) const {
     if (n >= 0 && n < m_npoints)
         return m_points[n].iscollidable;
-    std::cout << "an error occured in Object.cpp: n = " << n << " is not a valid index" << std::endl;
+    std::cout << "an error occured in Object::isCollidable: n = " << n << " is not a valid index" << std::endl;
     return true;
 }
 
@@ -149,7 +148,7 @@ void Object::modifyPoint(float x, float y, int n) {
         m_points[n].y = m_vsize * y;
         return;
     }
-    std::cout << "an error occured in Object.cpp: n = " << n << " is not a valid index" << std::endl;
+    std::cout << "an error occured in Object::modifyPoint: n = " << n << " is not a valid index" << std::endl;
     return;
 }
 

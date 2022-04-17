@@ -8,7 +8,7 @@
 #include "Object.h"
 #include "Point.h"
 
-#define LUMAX_OUTPUT
+//#define LUMAX_OUTPUT
 #ifdef LUMAX_OUTPUT
 extern "C" {
 #include "lumax.h"

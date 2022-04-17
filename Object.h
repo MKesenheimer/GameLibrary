@@ -13,9 +13,8 @@
 class Object {
 public:
     // the constructor
-    Object(float x, float y, float hsize = 1, float vsize = 1, float angle = 0,
-        float spin = 0, int mirrorX = 1, int mirrorY = 1);
-    
+    Object(float x, float y, float vx = 0, float vy = 0, float hsize = 1, float vsize = 1, float angle = 0, float spin = 0, int mirrorX = 1, int mirrorY = 1);
+
     // gives the x and y position in the 2 dimensional world
     float x() const;
     float y() const;
@@ -57,10 +56,10 @@ public:
 private:
     float m_x;
     float m_y;
-    float m_hsize;
-    float m_vsize;
     float m_vx;
     float m_vy;
+    float m_hsize;
+    float m_vsize;
     float m_phi; // angle in degree (°)
     float m_oldPhi; 
     // whenever save_point() is called, we increment this numbers

@@ -28,7 +28,7 @@ XYPoint Object::getCenterXY() const {
 }
 
 Point Object::getCenter() const {
-    return {m_x, m_y, 0, 0, 0, 0, true};
+    return {m_x, m_y, 255, 255, 255, 255, true};
 }
 
 float Object::vx() const {

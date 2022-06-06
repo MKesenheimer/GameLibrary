@@ -26,13 +26,15 @@ struct LumaxRenderer {
 #endif
 
 // Screen dimensions of the SDL screen
-const int SCREEN_WIDTH  = 900;
-const int SCREEN_HEIGHT = 800;
+extern int g_screen_width;
+extern int g_screen_height;
 
 class Renderer {
 public:
     // Draw an Object to a SDL_Renderer
     static void drawObject(const Object& object, SDL_Renderer *ren);
+
+    static void setDimensions(int width, int height);
 
 #ifdef LUMAX_OUTPUT
     // Draw an Object to the Lumax Renderer

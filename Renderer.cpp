@@ -2,8 +2,8 @@
 #include <SDL2_gfxPrimitives.h>
 #include <iostream>
 
-int g_screen_width = 900;
-int g_screen_height = 800;
+int Renderer::screen_width = 900;
+int Renderer::screen_height = 800;
 
 void Renderer::drawObject(const Object& object, SDL_Renderer *ren) {
     if (object.npoints() == 0) {
@@ -24,8 +24,8 @@ void Renderer::drawObject(const Object& object, SDL_Renderer *ren) {
 }
 
 void Renderer::setDimensions(int width, int height) {
-  g_screen_width = width;
-  g_screen_height = height;
+  screen_width = width;
+  screen_height = height;
 }
 
 #ifdef LUMAX_OUTPUT
@@ -38,8 +38,8 @@ float Renderer::transform(float x, float x1, float x2, float y1, float y2) {
 
 void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling) {
     const float mid = ren.maxPositions / 2;
-    float xl = transform(x, 0, g_screen_width, mid - xScaling * ren.mirrorFactX * ren.maxPositions / 2, mid + xScaling * ren.mirrorFactX * ren.maxPositions / 2);
-    float yl = transform(y, g_screen_height, 0, mid - yScaling * ren.mirrorFactY * ren.maxPositions / 2, mid + yScaling * ren.mirrorFactY * ren.maxPositions / 2);
+    float xl = transform(x, 0, screen_width, mid - xScaling * ren.mirrorFactX * ren.maxPositions / 2, mid + xScaling * ren.mirrorFactX * ren.maxPositions / 2);
+    float yl = transform(y, screen_height, 0, mid - yScaling * ren.mirrorFactY * ren.maxPositions / 2, mid + yScaling * ren.mirrorFactY * ren.maxPositions / 2);
     //if (xl >= mid - xScaling * ren.maxPositions / 2 && xl <= mid + xScaling * ren.maxPositions / 2 &&
     //    yl >= mid - yScaling * ren.maxPositions / 2 && yl <= mid + yScaling * ren.maxPositions / 2)
     ren.points.push_back({xl, yl, r, g, b});
@@ -47,8 +47,8 @@ void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int 
 
 void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
     // TODO: if objects consists only of one point (see above)
-    if (object.xcenter() >= 0 && object.xcenter() <= g_screen_width &&
-        object.ycenter() >= 0 && object.ycenter() <= g_screen_height) {
+    if (object.xcenter() >= 0 && object.xcenter() <= screen_width &&
+        object.ycenter() >= 0 && object.ycenter() <= screen_height) {
         Point point = object.getPoint(0);
         float xp_old = point.x;
         float yp_old = point.y;
@@ -65,7 +65,7 @@ void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
 
 int Renderer::sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanSpeed) {
     if (!lumaxHandle) return -1;
-    //lumax_verbosity |= DBG_WAITFORBUFFER;
+    //lumax_verbosity |= DBWAITFORBUFFER;
     size_t numOfPoints = ren.points.size();
     TLumax_Point points[numOfPoints];
     for (int i = 0; i < numOfPoints; ++i) {

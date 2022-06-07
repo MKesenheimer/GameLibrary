@@ -13,6 +13,8 @@ extern "C" {
 #include "lumax.h"
 }
 
+//#define LUMAX_OUTPUT
+
 // the Lumax renderer
 struct LumaxRenderer {
     std::vector<Point> points;
@@ -36,9 +38,15 @@ public:
     static int screen_width;
     static int screen_height;
 
+    // transform point from [x1, x2] to points in [y1, y2]
+    static float transform(float x, float x1, float x2, float y1, float y2);
+    
 #ifdef LUMAX_OUTPUT
     // Draw an Object to the Lumax Renderer
     static void drawObject(const Object& object, LumaxRenderer& ren);
+
+    // send a vector of Points to the Lumax Renderers
+    static void drawPoints(const std::vector<Point>& points, LumaxRenderer& ren);
 
     // send the points in the buffer to the Lumax device
     static int sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanSpeed);
@@ -46,8 +54,5 @@ public:
 private:
     // add a point to the Lumax renderer
     static void addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling);
-
-    // transform points from [x1, x2] to points in [y1, y2]
-    static float transform(float x, float x1, float x2, float y1, float y2);
 #endif
 };

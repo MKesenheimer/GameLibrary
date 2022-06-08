@@ -5,3 +5,10 @@
  */
 #pragma once
 
+namespace unittests {
+    void testTravelingSalesmanProblem();
+
+    void testLineDistanceSquare();
+
+    void testMinimalLineDistance();
+}

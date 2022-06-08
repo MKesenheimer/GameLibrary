@@ -68,11 +68,11 @@ void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
     }
 }
 
-void Renderer::drawPoints(const std::vector<Point>& points, LumaxRenderer& ren) {
+void Renderer::drawPoints(const std::vector<Point<float>>& points, LumaxRenderer& ren) {
     float xp_old = screen_width / 2;
     float yp_old = screen_height / 2;
     addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.scalingX, ren.scalingY); // start with a dark point
-    for (const Point& point : points) {
+    for (const Point<float>& point : points) {
         // Lumax has a 2^8 = 256 * 256 = 65536 color range
         addPoint(ren, point.x, point.y, point.r * 256, point.g * 256, point.b * 256, ren.scalingX, ren.scalingY);
         xp_old = point.x;

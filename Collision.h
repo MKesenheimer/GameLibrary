@@ -22,7 +22,7 @@ private:
     
     //calculate the distance of two objects
     static float dist(const Object& o1, const Object& o2);
-    static float dist(const Object& o, const Point& point);
-    static float dist(const Object& o, const XYPoint& point);
-    static float dist(const Point& point0, const Point& point1);
+    static float dist(const Object& o, const Point<float>& point);
+    static float dist(const Object& o, const XYPoint<float>& point);
+    static float dist(const Point<float>& point0, const Point<float>& point1);
 };

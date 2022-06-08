@@ -1,5 +1,4 @@
 #include "Algorithms.h"
-#include <algorithm>
 
 // Implementation of traveling Salesman Problem
 int Algorithms::travelingSalesmanProblem(std::vector<std::vector<int>>& graph, int s) {

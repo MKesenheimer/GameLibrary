@@ -20,8 +20,8 @@ public:
     float y() const;
     float xcenter() const;
     float ycenter() const;
-    XYPoint getCenterXY() const;
-    Point getCenter() const;
+    XYPoint<float> getCenterXY() const;
+    Point<float> getCenter() const;
 
     // gives the velocity in x- and y-direction of the object
     float vx() const;
@@ -57,8 +57,8 @@ public:
     // if point should be used for collision control
     void newPoint(float x, float y, bool iscol = true);
     void newPoint(float x, float y, int r, int g, int b, int a = 255, bool iscol = true); // with color
-    Point getPoint(int n) const;
-    XYPoint getPointXY(int n) const;
+    Point<float> getPoint(int n) const;
+    XYPoint<float> getPointXY(int n) const;
     bool isCollidable(int n) const;
     void modifyPoint(float x, float y, int n);
 
@@ -76,5 +76,5 @@ private:
     float m_spin;
     int m_mirrorX;
     int m_mirrorY;
-    std::vector<Point> m_points; // points are defined in the object coordinate system
+    std::vector<Point<float>> m_points; // points are defined in the object coordinate system
 };

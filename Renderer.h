@@ -17,7 +17,7 @@ extern "C" {
 
 // the Lumax renderer
 struct LumaxRenderer {
-    std::vector<Point> points;
+    std::vector<Point<float>> points;
     // maximum of possible points for the laser output
     int maxPositions = 65536;
     int mirrorFactX = 1; // 1: not mirrored, -1: mirrored
@@ -47,7 +47,7 @@ public:
     static void drawObject(const Object& object, LumaxRenderer& ren);
 
     // send a vector of Points to the Lumax Renderers
-    static void drawPoints(const std::vector<Point>& points, LumaxRenderer& ren);
+    static void drawPoints(const std::vector<Point<float>>& points, LumaxRenderer& ren);
 
     // send the points in the buffer to the Lumax device
     static int sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanSpeed);

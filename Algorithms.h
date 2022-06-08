@@ -26,8 +26,8 @@ public:
         std::array<T, 4> delta;
         for (const XYPoint<T>& p : line1) {
             for (const XYPoint<T>& q : line2) {
-                int deltaX = p.first - q.first;
-                int deltaY = p.second - q.second;
+                T deltaX = p.first - q.first;
+                T deltaY = p.second - q.second;
                 delta[k] = deltaX * deltaX + deltaY * deltaY;
                 k++;
             }
@@ -35,7 +35,7 @@ public:
         return delta;
     }
 
-    // give the minimal (squared) distance of two lines and the iterators pointing to the points with minimal distance
+    // gives the minimal (squared) distance of two lines and the iterators pointing to the points with minimal distance
     template<typename T>
     static std::tuple<T, typename Line<T>::const_iterator, typename Line<T>::const_iterator> minimalLineDistance(const Line<T>& line1, const Line<T>& line2) {
         std::array<T, 4> dist = lineDistanceSquare(line1, line2);
@@ -52,5 +52,35 @@ public:
                 return std::make_tuple(*min, std::begin(line1) + 1, std::begin(line2) + 1);
         }
         return std::make_tuple(*min, std::begin(line1), std::begin(line2)); 
+    }
+
+    // gives the point to the point of a line that has minimal distance to another point
+    template<typename T>
+    static typename Line<T>::const_iterator minimalPLinePoint(const XYPoint<T>& point, const Line<T>& line) {
+        const std::array<T, 2>& delta = minimalPLineDistance2(point, line);
+        if (delta[0] <= delta[1])
+            return std::begin(line);
+        else
+            return (std::begin(line) + 1);
+    }
+
+    // gives the minimal (squared) distance of a line and a point
+    template<typename T>
+    static T minimalPLineDistance(const XYPoint<T>& point, const Line<T>& line) {
+        const std::array<T, 2>& delta = minimalPLineDistance2(point, line);
+        return std::min(delta[0], delta[1]);
+    }
+
+    template<typename T>
+    static std::array<T, 2> minimalPLineDistance2(const XYPoint<T>& point, const Line<T>& line) {
+        size_t k = 0;
+        std::array<T, 2> delta;
+        for (const XYPoint<T>& q : line) {
+            T deltaX = point.first - q.first;
+            T deltaY = point.second - q.second;
+            delta[k] = deltaX * deltaX + deltaY * deltaY;
+            k++;
+        }
+        return delta;
     }
 };

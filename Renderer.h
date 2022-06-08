@@ -24,6 +24,7 @@ struct LumaxRenderer {
     int mirrorFactY = 1; // 1: not mirrored, -1: mirrored
     float scalingX = 1;
     float scalingY = 1;
+    int swapXY = 0;
 };
 #endif
 
@@ -40,7 +41,7 @@ public:
 
     // transform point from [x1, x2] to points in [y1, y2]
     static float transform(float x, float x1, float x2, float y1, float y2);
-    
+
 #ifdef LUMAX_OUTPUT
     // Draw an Object to the Lumax Renderer
     static void drawObject(const Object& object, LumaxRenderer& ren);

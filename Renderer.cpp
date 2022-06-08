@@ -37,6 +37,11 @@ float Renderer::transform(float x, float x1, float x2, float y1, float y2) {
 #ifdef LUMAX_OUTPUT
 void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling) {
     const float mid = ren.maxPositions / 2;
+    if (ren.swapXY == 1) {
+      int temp = y;
+      y = x;
+      x = temp;
+    }
     float xl = transform(x, 0, screen_width, mid - xScaling * ren.mirrorFactX * ren.maxPositions / 2, mid + xScaling * ren.mirrorFactX * ren.maxPositions / 2);
     float yl = transform(y, screen_height, 0, mid - yScaling * ren.mirrorFactY * ren.maxPositions / 2, mid + yScaling * ren.mirrorFactY * ren.maxPositions / 2);
     //if (xl >= mid - xScaling * ren.maxPositions / 2 && xl <= mid + xScaling * ren.maxPositions / 2 &&

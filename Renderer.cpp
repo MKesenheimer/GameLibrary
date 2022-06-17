@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include <SDL2_gfxPrimitives.h>
 #include <iostream>
+#include "Algorithms.h"
 
 int Renderer::screen_width = 900;
 int Renderer::screen_height = 800;
@@ -35,20 +36,6 @@ float Renderer::transform(float x, float x1, float x2, float y1, float y2) {
 }
 
 #ifdef LUMAX_OUTPUT
-void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling) {
-    const float mid = ren.maxPositions / 2;
-    if (ren.swapXY == 1) {
-      int temp = y;
-      y = x;
-      x = temp;
-    }
-    float xl = transform(x, 0, screen_width, mid - xScaling * ren.mirrorFactX * ren.maxPositions / 2, mid + xScaling * ren.mirrorFactX * ren.maxPositions / 2);
-    float yl = transform(y, screen_height, 0, mid - yScaling * ren.mirrorFactY * ren.maxPositions / 2, mid + yScaling * ren.mirrorFactY * ren.maxPositions / 2);
-    //if (xl >= mid - xScaling * ren.maxPositions / 2 && xl <= mid + xScaling * ren.maxPositions / 2 &&
-    //    yl >= mid - yScaling * ren.maxPositions / 2 && yl <= mid + yScaling * ren.maxPositions / 2)
-    ren.points.push_back({xl, yl, r, g, b, 1, false});
-}
-
 void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
     // TODO: if objects consists only of one point (see above)
     if (object.xcenter() >= 0 && object.xcenter() <= screen_width &&
@@ -68,7 +55,8 @@ void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
     }
 }
 
-void Renderer::drawPoints(const std::vector<Point<float>>& points, LumaxRenderer& ren) {
+void Renderer::drawPoints(std::vector<Point<float>>& points, LumaxRenderer& ren) {
+    applyColorCorrection(ren, points);
     float xp_old = screen_width / 2;
     float yp_old = screen_height / 2;
     addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.scalingX, ren.scalingY); // start with a dark point
@@ -102,5 +90,31 @@ int Renderer::sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanS
     //std::cout << "TimeToWait = " << TimeToWait << std::endl;
     ren.points.clear();
     return 0;
+}
+
+void Renderer::applyColorCorrection(const LumaxRenderer& ren, std::vector<Point<float>>& points) {
+    for (auto& p : points) {
+        p.r = colorPolynom(p.r, ren.colorCorr.ar, ren.colorCorr.br, ren.colorCorr.cr);
+        p.g = colorPolynom(p.g, ren.colorCorr.ag, ren.colorCorr.bg, ren.colorCorr.cg);
+        p.b = colorPolynom(p.b, ren.colorCorr.ab, ren.colorCorr.bb, ren.colorCorr.cb);
+    }
+}
+
+void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling) {
+    const float mid = ren.maxPositions / 2;
+    if (ren.swapXY == 1) {
+      int temp = y;
+      y = x;
+      x = temp;
+    }
+    float xl = transform(x, 0, screen_width, mid - xScaling * ren.mirrorFactX * ren.maxPositions / 2, mid + xScaling * ren.mirrorFactX * ren.maxPositions / 2);
+    float yl = transform(y, screen_height, 0, mid - yScaling * ren.mirrorFactY * ren.maxPositions / 2, mid + yScaling * ren.mirrorFactY * ren.maxPositions / 2);
+    //if (xl >= mid - xScaling * ren.maxPositions / 2 && xl <= mid + xScaling * ren.maxPositions / 2 &&
+    //    yl >= mid - yScaling * ren.maxPositions / 2 && yl <= mid + yScaling * ren.maxPositions / 2)
+    ren.points.push_back({xl, yl, r, g, b, 1, false});
+}
+
+int Renderer::colorPolynom(int value, float a, float b, float c) {
+    return Algorithms::constrain<int>(a * pow(value, 2.0) + b * value + c, 0, 255);
 }
 #endif

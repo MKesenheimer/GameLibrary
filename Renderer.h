@@ -15,6 +15,12 @@ extern "C" {
 
 //#define LUMAX_OUTPUT
 
+struct ColorCorrectionParameters {
+    float ar = 0, br = 1, cr = 0;
+    float ag = 0, bg = 1, cg = 0;
+    float ab = 0, bb = 1, cb = 0;
+};
+
 // the Lumax renderer
 struct LumaxRenderer {
     std::vector<Point<float>> points;
@@ -25,6 +31,7 @@ struct LumaxRenderer {
     float scalingX = 1;
     float scalingY = 1;
     int swapXY = 0;
+    ColorCorrectionParameters colorCorr;
 };
 #endif
 
@@ -47,13 +54,18 @@ public:
     static void drawObject(const Object& object, LumaxRenderer& ren);
 
     // send a vector of Points to the Lumax Renderers
-    static void drawPoints(const std::vector<Point<float>>& points, LumaxRenderer& ren);
+    static void drawPoints(std::vector<Point<float>>& points, LumaxRenderer& ren);
 
     // send the points in the buffer to the Lumax device
     static int sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanSpeed);
 
 private:
+    // function to apply the color polynom to the points
+    static void applyColorCorrection(const LumaxRenderer& ren, std::vector<Point<float>>& points);
+
     // add a point to the Lumax renderer
     static void addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling);
+
+    static int colorPolynom(int value, float a, float b, float c);
 #endif
 };

@@ -8,7 +8,10 @@
 #include <tuple>
 #include <array>
 #include <algorithm>
+#include <cmath>
+#include <sstream>
 #include "Point.h"
+#include <iostream>
 
 class Algorithms {
 public:
@@ -82,5 +85,37 @@ public:
             k++;
         }
         return delta;
+    }
+
+    // constrain a number between two boundaries
+    template<typename T> 
+    inline static T constrain(T value, T min, T max) {
+        return std::min(std::max(value, min), max);
+    }
+
+    // convert string to arbitrary data type and constrain if needed between lower and upper
+    template<typename T>
+    static inline T strTo(const std::string& str, T lower = 0, T upper = 0) {
+        T tmp = 0;
+        try {
+            std::istringstream(str) >> tmp;
+            if (lower != 0 || upper != 0) {
+                if (tmp < lower || tmp > upper) {
+                    std::cout << "Warning: Number not in range: " << tmp << ", (" << lower << ", " << upper << ")" << std::endl;
+                    return constrain<T>(tmp, lower, upper);
+                }
+            }
+        } catch (const std::exception& e) {
+            std::cout << "Warning: " << e.what() << ": No valid input: " << tmp << std::endl;
+        }
+        return tmp;
+    }
+
+    // Convert arbitrary type to string
+    template<typename T>
+    static inline std::string typeToStr(T a) {
+        std::stringstream ss;
+        ss << a;
+        return ss.str();
     }
 };

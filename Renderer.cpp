@@ -94,9 +94,13 @@ int Renderer::sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanS
 
 void Renderer::applyColorCorrection(const LumaxRenderer& ren, std::vector<Point<float>>& points) {
     for (auto& p : points) {
-        p.r = colorPolynom(p.r, ren.colorCorr.ar, ren.colorCorr.br, ren.colorCorr.cr);
-        p.g = colorPolynom(p.g, ren.colorCorr.ag, ren.colorCorr.bg, ren.colorCorr.cg);
-        p.b = colorPolynom(p.b, ren.colorCorr.ab, ren.colorCorr.bb, ren.colorCorr.cb);
+        // do color correction only if at least one laser is on
+        // (if all lasers are off -> blank move, does not need correction)
+        if (p.r != 0 || p.g != 0 || p.b != 0) {
+            p.r = colorPolynom(p.r, ren.colorCorr.ar, ren.colorCorr.br, ren.colorCorr.cr);
+            p.g = colorPolynom(p.g, ren.colorCorr.ag, ren.colorCorr.bg, ren.colorCorr.cg);
+            p.b = colorPolynom(p.b, ren.colorCorr.ab, ren.colorCorr.bb, ren.colorCorr.cb);
+        }
     }
 }
 

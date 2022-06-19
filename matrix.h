@@ -1,7 +1,7 @@
 /*
  *  vector.h
  *  Created by Matthias Kesenheimer on 19.06.22.
- *  Copyright 2020. All rights reserved.
+ *  Copyright 2022. All rights reserved.
  *  More information about the Eigen library at http://eigen.tuxfamily.org/dox/index.html
  */
 
@@ -45,7 +45,7 @@ namespace math {
         /// construct a dynamic-size matrix with size 'rows'x'cols'
         /// </summary>
         matrix(size_type r, size_type c)
-            : m_rows(r), m_cols(c), m_data(r * c), m_eigen(data(), rows(), cols()), m_refCount(1) {}
+            : m_cols(c), m_rows(r), m_data(r * c), m_eigen(data(), rows(), cols()), m_refCount(1) {}
 
         /// <summary>
         /// construct a dynamic-size matrix with number of rows 'rows' and default column vectors 'vector'
@@ -63,7 +63,7 @@ namespace math {
         /// construct a dynamic-size matrix with size 'cols * rows' and default value 'defaultValue'
         /// </summary>
         matrix(size_type r, size_type c, const value_type& defaultValue)
-            : m_rows(r), m_cols(c), m_data(r * c, defaultValue), m_eigen(data(), rows(), cols()), m_refCount(1) {}
+            : m_cols(c), m_rows(r), m_data(r * c, defaultValue), m_eigen(data(), rows(), cols()), m_refCount(1) {}
 
         /// <summary>
         /// construct a dynamic-size matrix from nested vector's
@@ -75,19 +75,19 @@ namespace math {
         /// construct a dynamic-size empty matrix
         /// </summary>
         matrix()
-            : m_rows(0), m_cols(0), m_data(), m_eigen(data(), cols(), rows()), m_refCount(1) {}
+            : m_cols(0), m_rows(0), m_data(), m_eigen(data(), cols(), rows()), m_refCount(1) {}
 
         /// <summary>
         /// copy constructor
         /// </summary>
         matrix(const matrix& other)
-            : m_rows(other.m_rows), m_cols(other.m_cols), m_data(other.m_data), m_eigen(data(), rows(), cols()), m_refCount(1) {}
+            : m_cols(other.m_cols), m_rows(other.m_rows), m_data(other.m_data), m_eigen(data(), rows(), cols()), m_refCount(1) {}
 
         /// <summary>
         /// move constructor
         /// </summary>
         matrix(matrix&& other) noexcept
-            : m_rows(other.m_rows), m_cols(other.m_cols), m_data(std::move(other.m_data)), m_eigen(data(), rows(), cols()), m_refCount(1) {}
+            : m_cols(other.m_cols), m_rows(other.m_rows), m_data(std::move(other.m_data)), m_eigen(data(), rows(), cols()), m_refCount(1) {}
 
         /// <summary>
         /// initialization by initializer list
@@ -105,8 +105,7 @@ namespace math {
         /// construct from eigen type
         /// </summary>
         matrix(const eigen_type& eigenmat)
-            : m_rows(eigenmat.rows()), m_cols(eigenmat.cols()), m_data(rows() * cols()), m_eigen(data(), rows(), cols()), m_refCount(1)
-        {
+            : m_cols(eigenmat.cols()), m_rows(eigenmat.rows()), m_data(rows() * cols()), m_eigen(data(), rows(), cols()), m_refCount(1) {
             m_eigen = eigenmat;
         }
 

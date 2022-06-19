@@ -1,7 +1,7 @@
 /*
  *  vector.h
  *  Created by Matthias Kesenheimer on 19.06.22.
- *  Copyright 2020. All rights reserved.
+ *  Copyright 2022. All rights reserved.
  *  More information about the Eigen library at http://eigen.tuxfamily.org/dox/index.html
  */
 

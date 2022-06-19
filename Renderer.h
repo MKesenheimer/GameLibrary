@@ -10,7 +10,7 @@
 
 #ifdef LUMAX_OUTPUT
 extern "C" {
-#include "lumax.h"
+#include "lumax/lumax.h"
 }
 
 //#define LUMAX_OUTPUT

@@ -16,9 +16,9 @@ extern "C" {
 //#define LUMAX_OUTPUT
 
 struct ColorCorrectionParameters {
-    float ar = 0, br = 1, cr = 0;
-    float ag = 0, bg = 1, cg = 0;
-    float ab = 0, bb = 1, cb = 0;
+    float ar = 0.00385236, br = -0.256863, cr = 70;
+    float ag = 0.00415225, bg = -0.388235, cg = 84;
+    float ab = 0.0032526, bb = -0.205882, cb = 96;
 };
 
 // the Lumax renderer

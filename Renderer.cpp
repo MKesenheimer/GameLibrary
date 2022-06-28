@@ -43,15 +43,15 @@ void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
         Point point = object.getPoint(0);
         float xp_old = point.x;
         float yp_old = point.y;
-        addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.scalingX, ren.scalingY); // start with a dark point
+        addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.parameters.scalingX, ren.parameters.scalingY); // start with a dark point
         for (int i = 0; i < object.npoints(); ++i) {
             point = object.getPoint(i);
             // Lumax has a 2^8 = 256 * 256 = 65536 color range
-            addPoint(ren, point.x, point.y, point.r * 256, point.g * 256, point.b * 256, ren.scalingX, ren.scalingY);
+            addPoint(ren, point.x, point.y, point.r * 256, point.g * 256, point.b * 256, ren.parameters.scalingX, ren.parameters.scalingY);
             xp_old = point.x;
             yp_old = point.y;
         }
-        addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.scalingX, ren.scalingY); // end with a dark point
+        addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.parameters.scalingX, ren.parameters.scalingY); // end with a dark point
     }
 }
 
@@ -59,14 +59,14 @@ void Renderer::drawPoints(std::vector<Point<float>>& points, LumaxRenderer& ren)
     applyColorCorrection(ren, points);
     float xp_old = screen_width / 2;
     float yp_old = screen_height / 2;
-    addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.scalingX, ren.scalingY); // start with a dark point
+    addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.parameters.scalingX, ren.parameters.scalingY); // start with a dark point
     for (const Point<float>& point : points) {
         // Lumax has a 2^8 = 256 * 256 = 65536 color range
-        addPoint(ren, point.x, point.y, point.r * 256, point.g * 256, point.b * 256, ren.scalingX, ren.scalingY);
+        addPoint(ren, point.x, point.y, point.r * 256, point.g * 256, point.b * 256, ren.parameters.scalingX, ren.parameters.scalingY);
         xp_old = point.x;
         yp_old = point.y;
     }
-    addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.scalingX, ren.scalingY); // end with a dark point
+    addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.parameters.scalingX, ren.parameters.scalingY); // end with a dark point
 }
 
 int Renderer::sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanSpeed) {
@@ -107,16 +107,16 @@ void Renderer::applyColorCorrection(const LumaxRenderer& ren, std::vector<Point<
 }
 
 void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling) {
-    const float mid = ren.maxPositions / 2;
-    if (ren.swapXY == 1) {
+    const float mid = ren.parameters.maxPositions / 2;
+    if (ren.parameters.swapXY == 1) {
       int temp = y;
       y = x;
       x = temp;
     }
-    float xl = transform(x, 0, screen_width, mid - xScaling * ren.mirrorFactX * ren.maxPositions / 2, mid + xScaling * ren.mirrorFactX * ren.maxPositions / 2);
-    float yl = transform(y, screen_height, 0, mid - yScaling * ren.mirrorFactY * ren.maxPositions / 2, mid + yScaling * ren.mirrorFactY * ren.maxPositions / 2);
-    //if (xl >= mid - xScaling * ren.maxPositions / 2 && xl <= mid + xScaling * ren.maxPositions / 2 &&
-    //    yl >= mid - yScaling * ren.maxPositions / 2 && yl <= mid + yScaling * ren.maxPositions / 2)
+    float xl = transform(x, 0, screen_width, mid - xScaling * ren.parameters.mirrorFactX * ren.parameters.maxPositions / 2, mid + xScaling * ren.parameters.mirrorFactX * ren.parameters.maxPositions / 2);
+    float yl = transform(y, screen_height, 0, mid - yScaling * ren.parameters.mirrorFactY * ren.parameters.maxPositions / 2, mid + yScaling * ren.parameters.mirrorFactY * ren.parameters.maxPositions / 2);
+    //if (xl >= mid - xScaling * ren.parameters.maxPositions / 2 && xl <= mid + xScaling * ren.parameters.maxPositions / 2 &&
+    //    yl >= mid - yScaling * ren.parameters.maxPositions / 2 && yl <= mid + yScaling * ren.parameters.maxPositions / 2)
     ren.points.push_back({xl, yl, r, g, b, 1, false});
 }
 

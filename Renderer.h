@@ -8,12 +8,11 @@
 #include "Object.h"
 #include "Point.h"
 
+//#define LUMAX_OUTPUT
 #ifdef LUMAX_OUTPUT
 extern "C" {
 #include "lumax/lumax.h"
 }
-
-//#define LUMAX_OUTPUT
 
 struct ColorCorrectionParameters {
     float ar = 0.00385236, br = -0.256863, cr = 70;
@@ -21,9 +20,7 @@ struct ColorCorrectionParameters {
     float ab = 0.0032526, bb = -0.205882, cb = 96;
 };
 
-// the Lumax renderer
-struct LumaxRenderer {
-    std::vector<Point<float>> points;
+struct LumaxParameters {
     // maximum of possible points for the laser output
     int maxPositions = 65536;
     int mirrorFactX = 1; // 1: not mirrored, -1: mirrored
@@ -31,6 +28,12 @@ struct LumaxRenderer {
     float scalingX = 1;
     float scalingY = 1;
     int swapXY = 0;
+};
+
+// the Lumax renderer
+struct LumaxRenderer {
+    std::vector<Point<float>> points;
+    LumaxParameters parameters;
     ColorCorrectionParameters colorCorr;
 };
 #endif

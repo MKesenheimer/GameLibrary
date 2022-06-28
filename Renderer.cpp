@@ -98,10 +98,10 @@ void Renderer::applyColorCorrection(const LumaxRenderer& ren, std::vector<Point<
         // (if all lasers are off -> blank move, does not need correction)
         if (p.r != 0 || p.g != 0 || p.b != 0) {
             //std::cout << "red in = " << p.r;
-            p.r = colorPolynom(p.r, ren.colorCorr.ar, ren.colorCorr.br, ren.colorCorr.cr);
+            p.r = colorPolynom(p.r, ren.parameters.colorCorr.ar, ren.parameters.colorCorr.br, ren.parameters.colorCorr.cr);
             //std::cout << ", red out = " << p.r << std::endl;
-            p.g = colorPolynom(p.g, ren.colorCorr.ag, ren.colorCorr.bg, ren.colorCorr.cg);
-            p.b = colorPolynom(p.b, ren.colorCorr.ab, ren.colorCorr.bb, ren.colorCorr.cb);
+            p.g = colorPolynom(p.g, ren.parameters.colorCorr.ag, ren.parameters.colorCorr.bg, ren.parameters.colorCorr.cg);
+            p.b = colorPolynom(p.b, ren.parameters.colorCorr.ab, ren.parameters.colorCorr.bb, ren.parameters.colorCorr.cb);
         }
     }
 }

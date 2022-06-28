@@ -13,29 +13,6 @@
 extern "C" {
 #include "lumax/lumax.h"
 }
-
-struct ColorCorrectionParameters {
-    float ar = 0.00385236, br = -0.256863, cr = 70;
-    float ag = 0.00415225, bg = -0.388235, cg = 84;
-    float ab = 0.0032526, bb = -0.205882, cb = 96;
-};
-
-struct LumaxParameters {
-    // maximum of possible points for the laser output
-    int maxPositions = 65536;
-    int mirrorFactX = 1; // 1: not mirrored, -1: mirrored
-    int mirrorFactY = 1; // 1: not mirrored, -1: mirrored
-    float scalingX = 1;
-    float scalingY = 1;
-    int swapXY = 0;
-};
-
-// the Lumax renderer
-struct LumaxRenderer {
-    std::vector<Point<float>> points;
-    LumaxParameters parameters;
-    ColorCorrectionParameters colorCorr;
-};
 #endif
 
 class Renderer {
@@ -53,6 +30,29 @@ public:
     static float transform(float x, float x1, float x2, float y1, float y2);
 
 #ifdef LUMAX_OUTPUT
+    struct ColorCorrectionParameters {
+        float ar, br, cr;
+        float ag, bg, cg;
+        float ab, bb, cb;
+    };
+    
+    struct LumaxParameters {
+        // maximum of possible points for the laser output
+        int maxPositions = 65536;
+        int mirrorFactX = 1; // 1: not mirrored, -1: mirrored
+        int mirrorFactY = 1; // 1: not mirrored, -1: mirrored
+        float scalingX = 1;
+        float scalingY = 1;
+        int swapXY = 0;
+        ColorCorrectionParameters colorCorr = {0, 1, 0, 0, 1, 0, 0, 1, 0};
+    };
+
+    // the Lumax renderer
+    struct LumaxRenderer {
+        std::vector<Point<float>> points;
+        LumaxParameters parameters;
+    };
+
     // Draw an Object to the Lumax Renderer
     static void drawObject(const Object& object, LumaxRenderer& ren);
 

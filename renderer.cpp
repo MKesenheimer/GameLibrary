@@ -1,12 +1,12 @@
-#include "Renderer.h"
+#include "renderer.h"
 #include <SDL2_gfxPrimitives.h>
 #include <iostream>
 #include "Algorithms.h"
 
-int Renderer::screen_width = 900;
-int Renderer::screen_height = 800;
+int renderer::screen_width = 900;
+int renderer::screen_height = 800;
 
-void Renderer::drawObject(const Object& object, SDL_Renderer *ren) {
+void renderer::drawObject(const object& object, SDL_Renderer *ren) {
     if (object.npoints() == 0) {
         // if the object consists only of one point, draw a filled circle
         Point point = object.getCenter();
@@ -24,19 +24,19 @@ void Renderer::drawObject(const Object& object, SDL_Renderer *ren) {
     }
 }
 
-void Renderer::setDimensions(int width, int height) {
+void renderer::setDimensions(int width, int height) {
   screen_width = width;
   screen_height = height;
 }
 
-float Renderer::transform(float x, float x1, float x2, float y1, float y2) {
+float renderer::transform(float x, float x1, float x2, float y1, float y2) {
     if (x2 != x1)
         return (((y2 - y1) * x + x2 * y1 - x1 * y2) / (x2 - x1));
     return 0;
 }
 
 #ifdef LUMAX_OUTPUT
-void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
+void renderer::drawObject(const object& object, lumaxRenderer& ren) {
     // TODO: if objects consists only of one point (see above)
     if (object.xcenter() >= 0 && object.xcenter() <= screen_width &&
         object.ycenter() >= 0 && object.ycenter() <= screen_height) {
@@ -55,7 +55,7 @@ void Renderer::drawObject(const Object& object, LumaxRenderer& ren) {
     }
 }
 
-void Renderer::drawPoints(std::vector<Point<float>>& points, LumaxRenderer& ren) {
+void renderer::drawPoints(std::vector<Point<float>>& points, lumaxRenderer& ren) {
     applyColorCorrection(ren, points);
     float xp_old = screen_width / 2;
     float yp_old = screen_height / 2;
@@ -69,7 +69,7 @@ void Renderer::drawPoints(std::vector<Point<float>>& points, LumaxRenderer& ren)
     addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.parameters.scalingX, ren.parameters.scalingY); // end with a dark point
 }
 
-int Renderer::sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanSpeed) {
+int renderer::sendPointsToLumax(void *lumaxHandle, lumaxRenderer& ren, int scanSpeed) {
     if (!lumaxHandle) return -1;
     //lumax_verbosity |= DBWAITFORBUFFER;
     size_t numOfPoints = ren.points.size();
@@ -92,7 +92,7 @@ int Renderer::sendPointsToLumax(void *lumaxHandle, LumaxRenderer& ren, int scanS
     return 0;
 }
 
-void Renderer::applyColorCorrection(const LumaxRenderer& ren, std::vector<Point<float>>& points) {
+void renderer::applyColorCorrection(const lumaxRenderer& ren, std::vector<Point<float>>& points) {
     for (auto& p : points) {
         // do color correction only if at least one laser is on
         // (if all lasers are off -> blank move, does not need correction)
@@ -106,7 +106,7 @@ void Renderer::applyColorCorrection(const LumaxRenderer& ren, std::vector<Point<
     }
 }
 
-void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling) {
+void renderer::addPoint(lumaxRenderer& ren, float x, float y, int r, int g, int b, float xScaling, float yScaling) {
     const float mid = ren.parameters.maxPositions / 2;
     if (ren.parameters.swapXY == 1) {
       int temp = y;
@@ -120,7 +120,7 @@ void Renderer::addPoint(LumaxRenderer& ren, float x, float y, int r, int g, int 
     ren.points.push_back({xl, yl, r, g, b, 1, false});
 }
 
-int Renderer::colorPolynom(int value, float a, float b, float c) {
-    return Algorithms::constrain<int>(a * pow(value, 2.0) + b * value + c, 0, 255);
+int renderer::colorPolynom(int value, float a, float b, float c) {
+    return algorithms::constrain<int>(a * pow(value, 2.0) + b * value + c, 0, 255);
 }
 #endif

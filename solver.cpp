@@ -1,14 +1,14 @@
 #include "Solver.h"
 
-Solver::Solver(float x0, float v0, float ww, float bet, float al) : x_(x0), v_(v0), ww_(ww), bet_(bet), al_(al) {}
+solver::solver(float x0, float v0, float ww, float bet, float al) : x_(x0), v_(v0), ww_(ww), bet_(bet), al_(al) {}
 
-void Solver::step(float dt, float* x, float* v) {
-  RungeKuttaSolver::step(ww_, bet_, al_, dt, &x_, &v_);
+void solver::step(float dt, float* x, float* v) {
+  rungeKuttaSolver::step(ww_, bet_, al_, dt, &x_, &v_);
   *x = x_;
   *v = v_;
 }
 
-void RungeKuttaSolver::step(float ww, float bet, float al, float dt, float* x, float* v) {
+void rungeKuttaSolver::step(float ww, float bet, float al, float dt, float* x, float* v) {
   float xs = *x, vs = *v;
 
   // Runge-Kutta 4. Ordnung

@@ -1,5 +1,5 @@
 /*
- *  Algorithms.h
+ *  algorithms.h
  *  Created by Matthias Kesenheimer on 08.06.22.
  *  Copyright 2022. All rights reserved.
  */
@@ -10,10 +10,10 @@
 #include <algorithm>
 #include <cmath>
 #include <sstream>
-#include "Point.h"
+#include "point.h"
 #include <iostream>
 
-class Algorithms {
+class algorithms {
 public:
     // Implementation of the TSP problem
     static int travelingSalesmanProblem(std::vector<std::vector<int>>& graph, int s);
@@ -24,11 +24,11 @@ public:
     // delta[2] = distance(p[1], q[0])
     // delta[3] = distance(p[1], q[1])
     template<typename T>
-    static std::array<T, 4> lineDistanceSquare(const Line<T>& line1, const Line<T>& line2) {
+    static std::array<T, 4> lineDistanceSquare(const line<T>& line1, const line<T>& line2) {
         size_t k = 0;
         std::array<T, 4> delta;
-        for (const XYPoint<T>& p : line1) {
-            for (const XYPoint<T>& q : line2) {
+        for (const xypoint<T>& p : line1) {
+            for (const xypoint<T>& q : line2) {
                 T deltaX = p.first - q.first;
                 T deltaY = p.second - q.second;
                 delta[k] = deltaX * deltaX + deltaY * deltaY;
@@ -40,7 +40,7 @@ public:
 
     // gives the minimal (squared) distance of two lines and the iterators pointing to the points with minimal distance
     template<typename T>
-    static std::tuple<T, typename Line<T>::const_iterator, typename Line<T>::const_iterator> minimalLineDistance(const Line<T>& line1, const Line<T>& line2) {
+    static std::tuple<T, typename line<T>::const_iterator, typename line<T>::const_iterator> minimallineDistance(const line<T>& line1, const line<T>& line2) {
         std::array<T, 4> dist = lineDistanceSquare(line1, line2);
         T* min = std::min_element(dist.begin(), dist.end());
         size_t element = std::distance(dist.begin(), min);
@@ -59,8 +59,8 @@ public:
 
     // gives the point to the point of a line that has minimal distance to another point
     template<typename T>
-    static typename Line<T>::const_iterator minimalPLinePoint(const XYPoint<T>& point, const Line<T>& line) {
-        const std::array<T, 2>& delta = minimalPLineDistance2(point, line);
+    static typename line<T>::const_iterator minimalPlinePoint(const xypoint<T>& point, const line<T>& line) {
+        const std::array<T, 2>& delta = minimalPlineDistance2(point, line);
         if (delta[0] <= delta[1])
             return std::begin(line);
         else
@@ -69,16 +69,16 @@ public:
 
     // gives the minimal (squared) distance of a line and a point
     template<typename T>
-    static T minimalPLineDistance(const XYPoint<T>& point, const Line<T>& line) {
-        const std::array<T, 2>& delta = minimalPLineDistance2(point, line);
+    static T minimalPlineDistance(const xypoint<T>& point, const line<T>& line) {
+        const std::array<T, 2>& delta = minimalPlineDistance2(point, line);
         return std::min(delta[0], delta[1]);
     }
 
     template<typename T>
-    static std::array<T, 2> minimalPLineDistance2(const XYPoint<T>& point, const Line<T>& line) {
+    static std::array<T, 2> minimalPlineDistance2(const xypoint<T>& point, const line<T>& line) {
         size_t k = 0;
         std::array<T, 2> delta;
-        for (const XYPoint<T>& q : line) {
+        for (const xypoint<T>& q : line) {
             T deltaX = point.first - q.first;
             T deltaY = point.second - q.second;
             delta[k] = deltaX * deltaX + deltaY * deltaY;

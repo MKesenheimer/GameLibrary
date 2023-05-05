@@ -12,7 +12,7 @@ namespace math::utilities
     /// <summary>
     /// 
     /// </summary>
-    class Fit
+    class fit
     {
     public:
         /// <summary>

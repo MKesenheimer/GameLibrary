@@ -6,22 +6,22 @@
 #pragma once
 #include <tuple>
 #include <vector>
-#include "Point.h"
+#include "point.h"
 
 // TODO: add color to each point
 
-class Object {
+class object {
 public:
     // the constructor
-    Object(float x, float y, float vx = 0, float vy = 0, float hsize = 1, float vsize = 1, float angle = 0, float spin = 0, int mirrorX = 1, int mirrorY = 1);
+    object(float x, float y, float vx = 0, float vy = 0, float hsize = 1, float vsize = 1, float angle = 0, float spin = 0, int mirrorX = 1, int mirrorY = 1);
 
     // gives the x and y position in the 2 dimensional world
     float x() const;
     float y() const;
     float xcenter() const;
     float ycenter() const;
-    XYPoint<float> getCenterXY() const;
-    Point<float> getCenter() const;
+    xypoint<float> getCenterXY() const;
+    point<float> getCenter() const;
 
     // gives the velocity in x- and y-direction of the object
     float vx() const;
@@ -57,8 +57,8 @@ public:
     // if point should be used for collision control
     void newPoint(float x, float y, bool iscol = true);
     void newPoint(float x, float y, int r, int g, int b, int a = 255, bool iscol = true); // with color
-    Point<float> getPoint(int n) const;
-    XYPoint<float> getPointXY(int n) const;
+    point<float> getPoint(int n) const;
+    xypoint<float> getPointXY(int n) const;
     bool isCollidable(int n) const;
     void modifyPoint(float x, float y, int n);
 
@@ -76,5 +76,5 @@ private:
     float m_spin;
     int m_mirrorX;
     int m_mirrorY;
-    std::vector<Point<float>> m_points; // points are defined in the object coordinate system
+    std::vector<point<float>> m_points; // points are defined in the object coordinate system
 };

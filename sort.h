@@ -8,7 +8,7 @@
 #include "Point.h"
 #include <opencv2/opencv.hpp>
 
-class Sort {
+class sort {
 public:
     static void sortLines(std::vector<cv::Vec4i>& lines);
 

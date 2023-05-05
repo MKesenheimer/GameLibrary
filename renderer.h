@@ -1,5 +1,5 @@
 /*
- *  Renderer.h
+ *  renderer.h
  *  Created by Matthias Kesenheimer on 31.12.20.
  *  Copyright 2020. All rights reserved.
  */
@@ -15,7 +15,7 @@ extern "C" {
 }
 #endif
 
-class Renderer {
+class renderer {
 public:
     // Draw an Object to a SDL_Renderer
     static void drawObject(const Object& object, SDL_Renderer *ren);
@@ -30,13 +30,13 @@ public:
     static float transform(float x, float x1, float x2, float y1, float y2);
 
 #ifdef LUMAX_OUTPUT
-    struct ColorCorrectionParameters {
+    struct colorCorrectionParameters {
         float ar, br, cr;
         float ag, bg, cg;
         float ab, bb, cb;
     };
     
-    struct LumaxParameters {
+    struct lumaxParameters {
         // maximum of possible points for the laser output
         int maxPositions = 65536;
         int mirrorFactX = 1; // 1: not mirrored, -1: mirrored
@@ -48,7 +48,7 @@ public:
     };
 
     // the Lumax renderer
-    struct LumaxRenderer {
+    struct lumaxRenderer {
         std::vector<Point<float>> points;
         LumaxParameters parameters;
     };

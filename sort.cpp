@@ -1,29 +1,29 @@
-#include "Sort.h"
+#include "sort.h"
 #include <algorithm>
 #include "Algorithms.h"
 
-void Sort::sortLines(std::vector<cv::Vec4i>& lines) {
+void sort::sortLines(std::vector<cv::Vec4i>& lines) {
     if (lines.size() <= 1)
         return;
     
     for (size_t k = 0; k < lines.size() - 1; ++k) {
-        Line<int>* line0 = reinterpret_cast<Line<int>*>(lines[k].val);
+        line<int>* line0 = reinterpret_cast<Line<int>*>(lines[k].val);
         //const XYPoint<int>& point0 = (*line0)[0];
-        const XYPoint<int>& point1 = (*line0)[1];
+        const xypoint<int>& point1 = (*line0)[1];
 
         // find closest line
         std::vector<cv::Vec4i>::iterator closest = std::min_element(lines.begin() + k + 1, lines.end(),
             [point1](cv::Vec4i& a, cv::Vec4i& b) {
-                Line<int>* lineA = reinterpret_cast<Line<int>*>(a.val);
-                Line<int>* lineB = reinterpret_cast<Line<int>*>(b.val);
-                return Algorithms::minimalPLineDistance<int>(point1, *lineA) < Algorithms::minimalPLineDistance<int>(point1, *lineB);
+                line<int>* lineA = reinterpret_cast<line<int>*>(a.val);
+                line<int>* lineB = reinterpret_cast<line<int>*>(b.val);
+                return algorithms::minimalPLineDistance<int>(point1, *lineA) < algorithms::minimalPLineDistance<int>(point1, *lineB);
             }
         );
 
         // determine closest point of closest line
-        Line<int>* nextLine = reinterpret_cast<Line<int>*>(closest->val);
+        line<int>* nextLine = reinterpret_cast<line<int>*>(closest->val);
         //std::cout << (*nextLine)[0].first << std::endl;
-        Line<int>::const_iterator nextPoint = Algorithms::minimalPLinePoint<int>(point1, *nextLine);
+        line<int>::const_iterator nextPoint = algorithms::minimalPLinePoint<int>(point1, *nextLine);
 
         // if the points of the line are not in the correct order, swap them
         if (nextPoint != nextLine->begin())
@@ -35,24 +35,24 @@ void Sort::sortLines(std::vector<cv::Vec4i>& lines) {
     }
 }
 
-void Sort::sortLines(std::vector<Line<int>>& lines) {
+void sort::sortLines(std::vector<line<int>>& lines) {
     if (lines.size() <= 1)
         return;
     
     for (size_t k = 0; k < lines.size() - 1; ++k) {
-        Line<int>& line0 = lines[k];
-        const XYPoint<int>& point1 = line0[1];
+        line<int>& line0 = lines[k];
+        const xypoint<int>& point1 = line0[1];
 
         // find closest line
-        std::vector<Line<int>>::iterator closest = std::min_element(lines.begin() + k + 1, lines.end(),
-            [point1](Line<int>& lineA, Line<int>& lineB) {
+        std::vector<line<int>>::iterator closest = std::min_element(lines.begin() + k + 1, lines.end(),
+            [point1](line<int>& lineA, line<int>& lineB) {
                 return Algorithms::minimalPLineDistance<int>(point1, lineA) < Algorithms::minimalPLineDistance<int>(point1, lineB);
             }
         );
 
         // determine closest point of closest line
-        Line<int>& nextLine = *closest;
-        Line<int>::const_iterator nextPoint = Algorithms::minimalPLinePoint<int>(point1, nextLine);
+        line<int>& nextLine = *closest;
+        line<int>::const_iterator nextPoint = algorithms::minimalPLinePoint<int>(point1, nextLine);
 
         // if the points of the line are not in the correct order, swap them
         if (nextPoint != nextLine.begin())

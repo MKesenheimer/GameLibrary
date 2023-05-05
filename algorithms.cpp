@@ -1,7 +1,7 @@
-#include "Algorithms.h"
+#include "algorithms.h"
 
 // Implementation of traveling Salesman Problem
-int Algorithms::travelingSalesmanProblem(std::vector<std::vector<int>>& graph, int s) {
+int algorithms::travelingSalesmanProblem(std::vector<std::vector<int>>& graph, int s) {
     // store all vertex apart from source vertex
     std::vector<int> vertex;
     vertex.reserve(graph.size());

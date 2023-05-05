@@ -5,24 +5,24 @@
  */
 #pragma once
 #include <tuple>
-#include "Object.h"
-#include "Point.h"
+#include "object.h"
+#include "point.h"
 
-class Collision {
+class collision {
 public:
     //this function takes two lists of points and checks if the
     //the objects formed by the points has collided
     //Note: the points should form an convex object at best
-    static bool checkCollision(const Object& o1, const Object& o2);
+    static bool checkCollision(const object& o1, const object& o2);
 
 private:    
     //returns the length of the largest distance from center
     //this assumed to be the dimension of the object
-    static float dim(const Object& o);
+    static float dim(const object& o);
     
     //calculate the distance of two objects
-    static float dist(const Object& o1, const Object& o2);
-    static float dist(const Object& o, const Point<float>& point);
-    static float dist(const Object& o, const XYPoint<float>& point);
-    static float dist(const Point<float>& point0, const Point<float>& point1);
+    static float dist(const object& o1, const object& o2);
+    static float dist(const object& o, const point<float>& point);
+    static float dist(const object& o, const xypoint<float>& point);
+    static float dist(const point<float>& point0, const point<float>& point1);
 };

@@ -23,11 +23,11 @@ float object::ycenter() const {
     return m_y;
 }
 
-xypoint<float> object::getCenterXY() const {
+types::xypoint<float> object::getCenterXY() const {
     return {m_x, m_y};
 }
 
-point<float> object::getCenter() const {
+types::point<float> object::getCenter() const {
     return {m_x, m_y, 255, 255, 255, 255, true};
 }
 
@@ -99,7 +99,7 @@ void object::newPoint(float x, float y, bool iscol) {
 }
 
 void object::newPoint(float x, float y, int r, int g, int b, int a, bool iscol) {
-    m_points.push_back(point<float>());
+    m_points.push_back(types::point<float>());
     // move the points into the world coordinate system
     m_points[m_npoints].x = m_hsize * m_mirrorX * x * std::cos(m_phi) - m_hsize * m_mirrorY * y * std::sin(m_phi);
     m_points[m_npoints].y = m_hsize * m_mirrorX * x * std::sin(m_phi) + m_hsize * m_mirrorY * y * std::cos(m_phi);
@@ -111,8 +111,8 @@ void object::newPoint(float x, float y, int r, int g, int b, int a, bool iscol) 
     m_npoints++;
 }
 
-xypoint<float> object::getPointXY(int n) const {
-    xypoint<float> point;
+types::xypoint<float> object::getPointXY(int n) const {
+    types::xypoint<float> point;
     if (n >= 0 && n < m_npoints) {
         point.first = m_points[n].x + m_x;
         point.second = m_points[n].y + m_y;
@@ -122,8 +122,8 @@ xypoint<float> object::getPointXY(int n) const {
     return point;
 }
 
-point<float> object::getPoint(int n) const {
-    point<float> point;
+types::point<float> object::getPoint(int n) const {
+    types::point<float> point;
     if (n >= 0 && n < m_npoints) {
         point = m_points[n];
         point.x = point.x + m_x;

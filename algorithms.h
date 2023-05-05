@@ -24,11 +24,11 @@ public:
     // delta[2] = distance(p[1], q[0])
     // delta[3] = distance(p[1], q[1])
     template<typename T>
-    static std::array<T, 4> lineDistanceSquare(const line<T>& line1, const line<T>& line2) {
+    static std::array<T, 4> lineDistanceSquare(const types::line<T>& line1, const types::line<T>& line2) {
         size_t k = 0;
         std::array<T, 4> delta;
-        for (const xypoint<T>& p : line1) {
-            for (const xypoint<T>& q : line2) {
+        for (const types::xypoint<T>& p : line1) {
+            for (const types::xypoint<T>& q : line2) {
                 T deltaX = p.first - q.first;
                 T deltaY = p.second - q.second;
                 delta[k] = deltaX * deltaX + deltaY * deltaY;
@@ -40,7 +40,7 @@ public:
 
     // gives the minimal (squared) distance of two lines and the iterators pointing to the points with minimal distance
     template<typename T>
-    static std::tuple<T, typename line<T>::const_iterator, typename line<T>::const_iterator> minimallineDistance(const line<T>& line1, const line<T>& line2) {
+    static std::tuple<T, typename types::line<T>::const_iterator, typename types::line<T>::const_iterator> minimallineDistance(const types::line<T>& line1, const types::line<T>& line2) {
         std::array<T, 4> dist = lineDistanceSquare(line1, line2);
         T* min = std::min_element(dist.begin(), dist.end());
         size_t element = std::distance(dist.begin(), min);
@@ -59,8 +59,8 @@ public:
 
     // gives the point to the point of a line that has minimal distance to another point
     template<typename T>
-    static typename line<T>::const_iterator minimalPlinePoint(const xypoint<T>& point, const line<T>& line) {
-        const std::array<T, 2>& delta = minimalPlineDistance2(point, line);
+    static typename types::line<T>::const_iterator minimalPLinePoint(const types::xypoint<T>& point, const types::line<T>& line) {
+        const std::array<T, 2>& delta = minimalPLineDistance2(point, line);
         if (delta[0] <= delta[1])
             return std::begin(line);
         else
@@ -69,16 +69,16 @@ public:
 
     // gives the minimal (squared) distance of a line and a point
     template<typename T>
-    static T minimalPlineDistance(const xypoint<T>& point, const line<T>& line) {
-        const std::array<T, 2>& delta = minimalPlineDistance2(point, line);
+    static T minimalPLineDistance(const types::xypoint<T>& point, const types::line<T>& line) {
+        const std::array<T, 2>& delta = minimalPLineDistance2(point, line);
         return std::min(delta[0], delta[1]);
     }
 
     template<typename T>
-    static std::array<T, 2> minimalPlineDistance2(const xypoint<T>& point, const line<T>& line) {
+    static std::array<T, 2> minimalPLineDistance2(const types::xypoint<T>& point, const types::line<T>& line) {
         size_t k = 0;
         std::array<T, 2> delta;
-        for (const xypoint<T>& q : line) {
+        for (const types::xypoint<T>& q : line) {
             T deltaX = point.first - q.first;
             T deltaY = point.second - q.second;
             delta[k] = deltaX * deltaX + deltaY * deltaY;

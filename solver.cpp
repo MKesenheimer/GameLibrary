@@ -1,4 +1,4 @@
-#include "Solver.h"
+#include "solver.h"
 
 solver::solver(float x0, float v0, float ww, float bet, float al) : x_(x0), v_(v0), ww_(ww), bet_(bet), al_(al) {}
 

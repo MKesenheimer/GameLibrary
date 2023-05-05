@@ -1,7 +1,7 @@
 #include "renderer.h"
 #include <SDL2_gfxPrimitives.h>
 #include <iostream>
-#include "Algorithms.h"
+#include "algorithms.h"
 
 int renderer::screen_width = 900;
 int renderer::screen_height = 800;
@@ -9,10 +9,10 @@ int renderer::screen_height = 800;
 void renderer::drawObject(const object& object, SDL_Renderer *ren) {
     if (object.npoints() == 0) {
         // if the object consists only of one point, draw a filled circle
-        Point point = object.getCenter();
+        types::point point = object.getCenter();
         filledEllipseRGBA(ren, (int)object.x(), (int)object.y(), (int)(object.hsize() / 2), (int)(object.vsize() / 2), point.r, point.g, point.b, point.a);
     } else {
-        Point point = object.getPoint(0);
+        types::point point = object.getPoint(0);
         int xp_old = (int)(point.x);
         int yp_old = (int)(point.y);
         for (int i = 1; i < object.npoints(); ++i) {
@@ -40,7 +40,7 @@ void renderer::drawObject(const object& object, lumaxRenderer& ren) {
     // TODO: if objects consists only of one point (see above)
     if (object.xcenter() >= 0 && object.xcenter() <= screen_width &&
         object.ycenter() >= 0 && object.ycenter() <= screen_height) {
-        Point point = object.getPoint(0);
+        types::point point = object.getPoint(0);
         float xp_old = point.x;
         float yp_old = point.y;
         addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.parameters.scalingX, ren.parameters.scalingY); // start with a dark point
@@ -55,12 +55,12 @@ void renderer::drawObject(const object& object, lumaxRenderer& ren) {
     }
 }
 
-void renderer::drawPoints(std::vector<Point<float>>& points, lumaxRenderer& ren) {
+void renderer::drawPoints(std::vector<types::point<float>>& points, lumaxRenderer& ren) {
     applyColorCorrection(ren, points);
     float xp_old = screen_width / 2;
     float yp_old = screen_height / 2;
     addPoint(ren, xp_old, yp_old, 0, 0, 0, ren.parameters.scalingX, ren.parameters.scalingY); // start with a dark point
-    for (const Point<float>& point : points) {
+    for (const types::point<float>& point : points) {
         // Lumax has a 2^8 = 256 * 256 = 65536 color range
         addPoint(ren, point.x, point.y, point.r * 256, point.g * 256, point.b * 256, ren.parameters.scalingX, ren.parameters.scalingY);
         xp_old = point.x;
@@ -92,7 +92,7 @@ int renderer::sendPointsToLumax(void *lumaxHandle, lumaxRenderer& ren, int scanS
     return 0;
 }
 
-void renderer::applyColorCorrection(const lumaxRenderer& ren, std::vector<Point<float>>& points) {
+void renderer::applyColorCorrection(const lumaxRenderer& ren, std::vector<types::point<float>>& points) {
     for (auto& p : points) {
         // do color correction only if at least one laser is on
         // (if all lasers are off -> blank move, does not need correction)

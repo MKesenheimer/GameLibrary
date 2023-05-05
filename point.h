@@ -7,19 +7,21 @@
 #include <tuple>
 #include <array>
 
-template<typename T> 
-using xypoint = std::pair<T, T>; 
-
-// TODO: Move to extra class, or rename this header file
-template<typename T>
-using line = std::array<xypoint<T>, 2>;
-
-template<typename T> 
-struct point {
-    // coordinates
-    T x, y;
-    // color and alpha value (a = 0 -> transparent, a = 255 -> opaque)
-    int r, g, b, a;
-    // should be collision detection applied
-    bool iscollidable;
-};
+namespace types {
+    template<typename T> 
+    using xypoint = std::pair<T, T>; 
+    
+    // TODO: Move to extra class, or rename this header file
+    template<typename T>
+    using line = std::array<xypoint<T>, 2>;
+    
+    template<typename T> 
+    struct point {
+        // coordinates
+        T x, y;
+        // color and alpha value (a = 0 -> transparent, a = 255 -> opaque)
+        int r, g, b, a;
+        // should be collision detection applied
+        bool iscollidable;
+    };
+}

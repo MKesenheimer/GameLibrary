@@ -26,7 +26,7 @@ namespace math {
     class matrix {
     public:
         /// <summary>
-        ///
+        /// typedefs
         /// </summary>
         using data_type = std::vector<_T>;
         using value_type = typename data_type::value_type;
@@ -174,14 +174,14 @@ namespace math {
         }
 
         /// <summary>
-        ///
+        /// number of rows of the matrix
         /// </summary>
         size_type rows() const {
             return m_rows;
         }
 
         /// <summary>
-        ///
+        /// number of columns of the matrix
         /// </summary>
         size_type cols() const {
             return m_cols;
@@ -299,21 +299,21 @@ namespace math {
         }
 
         /// <summary>
-        ///
+        /// bracket operator
         /// </summary>
         value_type& operator()(const size_type r, const size_type c) {
             return m_eigen(r, c);
         }
 
         /// <summary>
-        ///
+        /// bracket operator
         /// </summary>
         const value_type& operator()(const size_type r, const size_type c) const {
             return m_eigen(r, c);
         }
 
         /// <summary>
-        ///
+        /// assignment operator
         /// </summary>
         const matrix<_T>& operator=(const matrix<_T>& rhs) {
             if (this != &rhs) {
@@ -326,7 +326,7 @@ namespace math {
         }
 
         /// <summary>
-        ///
+        /// assignment operator
         /// </summary>
         matrix<_T>& operator=(matrix<_T>&& rhs) {
             if (this != &rhs) {
@@ -354,14 +354,14 @@ namespace math {
         }
 
         /// <summary>
-        /// 
+        /// increase the reference count
         /// </summary>
         void addRef() {
             ++m_refCount;
         }
 
         /// <summary>
-        /// 
+        /// decrese the reference count
         /// </summary>
         void release() {
             if (!--m_refCount)

@@ -25,7 +25,7 @@ namespace math {
     class vector {
     public:
         /// <summary>
-        ///
+        /// typedefs
         /// </summary>
         using data_type = std::vector<_T>;
         using value_type = typename data_type::value_type;

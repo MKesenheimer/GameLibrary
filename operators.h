@@ -28,14 +28,12 @@ namespace math {
         return stream;
     }
 
-    namespace eigen
-    {
+    namespace eigen {
         /// <summary>
         /// transpose a matrix
         /// </summary>
         template <class _T>
-        inline matrix<_T> transpose(const matrix<_T>& mat)
-        {
+        inline matrix<_T> transpose(const matrix<_T>& mat) {
             return matrix<_T>(mat.eigen().transpose());
         }
 
@@ -43,8 +41,7 @@ namespace math {
         /// inverse of a matrix
         /// </summary>
         template <class _T>
-        inline matrix<_T> inverse(const matrix<_T>& mat)
-        {
+        inline matrix<_T> inverse(const matrix<_T>& mat) {
             return matrix<_T>(mat.eigen().inverse());
         }
 
@@ -52,8 +49,7 @@ namespace math {
         /// general l-norm of a vector
         /// </summary>
         template <int _l, class _T>
-        inline _T norm(const vector<_T>& vec)
-        {
+        inline _T norm(const vector<_T>& vec) {
             return vec.eigen().template lpNorm<_l>();
         }
 
@@ -61,8 +57,7 @@ namespace math {
         /// norm of a vector
         /// </summary>
         template <class _T>
-        inline _T norm(const vector<_T>& vec)
-        {
+        inline _T norm(const vector<_T>& vec) {
             return vec.eigen().norm();
         }
 
@@ -70,8 +65,7 @@ namespace math {
         /// normalize a vector via general l-norm
         /// </summary>
         template <int _l, class _T>
-        inline void normalize(vector<_T>& vec)
-        {
+        inline void normalize(vector<_T>& vec) {
             vec = vec / norm<_l, _T>(vec);
         }
 
@@ -79,8 +73,7 @@ namespace math {
         /// normalize a vector
         /// </summary>
         template <class _T>
-        inline void normalize(vector<_T>& vec)
-        {
+        inline void normalize(vector<_T>& vec) {
             vec.eigen().normalize();
         }
 
@@ -88,8 +81,7 @@ namespace math {
         /// Frobenius norm of a matrix
         /// </summary>
         template <class _T>
-        inline _T norm(const matrix<_T>& mat)
-        {
+        inline _T norm(const matrix<_T>& mat) {
             return mat.eigen().norm();
         }
 
@@ -97,8 +89,7 @@ namespace math {
         /// accumulate/sum all entries of a vector
         /// </summary>
         template <class _T>
-        inline _T sum(const vector<_T>& vec)
-        {
+        inline _T sum(const vector<_T>& vec) {
             return vec.eigen().sum();
         }
     }
@@ -107,8 +98,7 @@ namespace math {
     /// vector-scalar multiplication
     /// </summary>
     template <class _T>
-    inline vector<_T> operator*(const vector<_T>& vec, const _T& scalar)
-    {
+    inline vector<_T> operator*(const vector<_T>& vec, const _T& scalar) {
         return vector<_T>(vec.eigen() * scalar);
     }
 
@@ -116,8 +106,7 @@ namespace math {
     /// vector-scalar multiplication
     /// </summary>
     template <class _T>
-    inline vector<_T> operator*(const _T& scalar, const vector<_T>& vec)
-    {
+    inline vector<_T> operator*(const _T& scalar, const vector<_T>& vec) {
         return vector<_T>(scalar * vec.eigen());
     }
 
@@ -125,8 +114,7 @@ namespace math {
     /// vector-scalar division
     /// </summary>
     template <class _T>
-    inline vector<_T> operator/(const vector<_T>& vec, const _T& scalar)
-    {
+    inline vector<_T> operator/(const vector<_T>& vec, const _T& scalar) {
         return vector<_T>(vec.eigen() / scalar);
     }
 
@@ -134,19 +122,16 @@ namespace math {
     /// vector-vector multiplication
     /// </summary>
     template <class _T>
-    inline _T operator*(const vector<_T>& vecT, const vector<_T>& vec)
-    {
+    inline _T operator*(const vector<_T>& vecT, const vector<_T>& vec) {
         return static_cast<_T>(vecT.eigen().transpose() * vec.eigen());
     }
 
-    namespace eigen
-    {
+    namespace eigen {
         /// <summary>
         /// coefficient-wise vector multiplication: a[i] * b[i] = c[i]
         /// </summary>
         template <class _T>
-        inline vector<_T> cprod(const vector<_T>& vec1, const vector<_T>& vec2)
-        {
+        inline vector<_T> cprod(const vector<_T>& vec1, const vector<_T>& vec2) {
             return vector<_T>(vec1.eigen().cwiseProduct(vec2.eigen()));
             //return vector<_T>(vec1.eigen().array() * vec2.eigen().array());
         }
@@ -155,8 +140,7 @@ namespace math {
         /// coefficient-wise vector division: a[i] / b[i] = c[i]
         /// </summary>
         template <class _T>
-        inline vector<_T> cdiv(const vector<_T>& vec1, const vector<_T>& vec2)
-        {
+        inline vector<_T> cdiv(const vector<_T>& vec1, const vector<_T>& vec2) {
             return vector<_T>(vec1.eigen().cwiseQuotient(vec2.eigen()));
             //return vector<_T>(vec1.eigen().array() * vec2.eigen().array());
         }
@@ -166,8 +150,7 @@ namespace math {
     /// vector-vector addition
     /// </summary>
     template <class _T>
-    inline vector<_T> operator+(const vector<_T>& lhs, const vector<_T>& rhs)
-    {
+    inline vector<_T> operator+(const vector<_T>& lhs, const vector<_T>& rhs) {
         return vector<_T>(lhs.eigen() + rhs.eigen());
     }
 
@@ -175,8 +158,7 @@ namespace math {
     /// vector-vector addition
     /// </summary>
     template <class _T>
-    inline vector<_T>& operator+=(vector<_T>& lhs, const vector<_T>& rhs)
-    {
+    inline vector<_T>& operator+=(vector<_T>& lhs, const vector<_T>& rhs) {
         lhs.eigen() += rhs.eigen();
         return lhs;
     }
@@ -185,8 +167,7 @@ namespace math {
     /// vector-vector subtraction
     /// </summary>
     template <class _T>
-    inline vector<_T>& operator-=(vector<_T>& lhs, const vector<_T>& rhs)
-    {
+    inline vector<_T>& operator-=(vector<_T>& lhs, const vector<_T>& rhs) {
         lhs.eigen() -= rhs.eigen();
         return lhs;
     }
@@ -195,8 +176,7 @@ namespace math {
     /// vector-scalar multiplication
     /// </summary>
     template <class _T>
-    inline vector<_T>& operator*=(vector<_T>& lhs, const _T& rhs)
-    {
+    inline vector<_T>& operator*=(vector<_T>& lhs, const _T& rhs) {
         lhs.eigen() *= rhs;
         return lhs;
     }
@@ -205,8 +185,7 @@ namespace math {
     /// vector-scalar division
     /// </summary>
     template <class _T>
-    inline vector<_T>& operator/=(vector<_T>& lhs, const _T& rhs)
-    {
+    inline vector<_T>& operator/=(vector<_T>& lhs, const _T& rhs) {
         lhs.eigen() /= rhs;
         return lhs;
     }
@@ -215,8 +194,7 @@ namespace math {
     /// vector-vector subtraction
     /// </summary>
     template <class _T>
-    inline vector<_T> operator-(const vector<_T>& lhs, const vector<_T>& rhs)
-    {
+    inline vector<_T> operator-(const vector<_T>& lhs, const vector<_T>& rhs) {
         return vector<_T>(lhs.eigen() - rhs.eigen());
     }
 
@@ -224,8 +202,7 @@ namespace math {
     /// matrix-scalar multiplication
     /// </summary>
     template <class _T>
-    inline matrix<_T> operator*(const matrix<_T>& mat, const _T& scalar)
-    {
+    inline matrix<_T> operator*(const matrix<_T>& mat, const _T& scalar) {
         return matrix<_T>(mat.eigen() * scalar);
     }
 
@@ -233,8 +210,7 @@ namespace math {
     /// matrix-scalar multiplication
     /// </summary>
     template <class _T>
-    inline matrix<_T> operator*(const _T& scalar, const matrix<_T>& mat)
-    {
+    inline matrix<_T> operator*(const _T& scalar, const matrix<_T>& mat) {
         return matrix<_T>(scalar * mat.eigen());
     }
 
@@ -242,8 +218,7 @@ namespace math {
     /// matrix-scalar division
     /// </summary>
     template <class _T>
-    inline matrix<_T> operator/(const matrix<_T>& mat, const _T& scalar)
-    {
+    inline matrix<_T> operator/(const matrix<_T>& mat, const _T& scalar) {
         return matrix<_T>(mat.eigen() / scalar);
     }
 
@@ -251,8 +226,7 @@ namespace math {
     /// matrix-vector multiplication
     /// </summary>
     template <class _T>
-    inline vector<_T> operator*(const matrix<_T>& mat, const vector<_T>& vec)
-    {
+    inline vector<_T> operator*(const matrix<_T>& mat, const vector<_T>& vec) {
 #define EIGENMULT
 //#define PARALLELIZATION
 #ifdef EIGENMULT
@@ -284,8 +258,7 @@ namespace math {
     /// matrix-vector multiplication
     /// </summary>
     template <class _T>
-    inline vector<_T> operator*(const vector<_T>& vecT, const matrix<_T>& mat)
-    {
+    inline vector<_T> operator*(const vector<_T>& vecT, const matrix<_T>& mat) {
 #define EIGENMULT
 //#define PARALLELIZATION
 #ifdef EIGENMULT
@@ -317,8 +290,7 @@ namespace math {
     /// matrix-matrix multiplication
     /// </summary>
     template <class _T>
-    inline matrix<_T> operator*(const matrix<_T>& lhs, const matrix<_T>& rhs)
-    {
+    inline matrix<_T> operator*(const matrix<_T>& lhs, const matrix<_T>& rhs) {
         //std::cout << "matrix matrix multi." << std::endl;
         return matrix<_T>(lhs.eigen() * rhs.eigen());
     }
@@ -327,8 +299,7 @@ namespace math {
     /// matrix-matrix addition
     /// </summary>
     template <class _T>
-    inline matrix<_T> operator+(const matrix<_T>& lhs, const matrix<_T>& rhs)
-    {
+    inline matrix<_T> operator+(const matrix<_T>& lhs, const matrix<_T>& rhs) {
         return matrix<_T>(lhs.eigen() + rhs.eigen());
     }
 
@@ -336,8 +307,7 @@ namespace math {
     /// matrix-matrix subtraction
     /// </summary>
     template <class _T>
-    inline matrix<_T> operator-(const matrix<_T>& lhs, const matrix<_T>& rhs)
-    {
+    inline matrix<_T> operator-(const matrix<_T>& lhs, const matrix<_T>& rhs) {
         return matrix<_T>(lhs.eigen() - rhs.eigen());
     }
 }

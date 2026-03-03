@@ -1,6 +1,7 @@
 #include "renderer.h"
 #include <SDL2_gfxPrimitives.h>
 #include <iostream>
+#include <chrono>
 #include "algorithms.h"
 
 int renderer::screen_width = 900;
@@ -84,9 +85,14 @@ int renderer::sendPointsToLumax(void *lumaxHandle, lumaxRenderer& ren, int scanS
         points[i].Ch6 = 0;
         points[i].Ch7 = 0;
     }
-    int result = Lumax_SendFrame(lumaxHandle, points, numOfPoints, scanSpeed, 0, NULL);
-    int TimeToWait, BufferChanged;
-    result = Lumax_WaitForBuffer(lumaxHandle, 17, &TimeToWait, &BufferChanged);
+    //auto start = std::chrono::high_resolution_clock::now();
+    Lumax_SendFrame(lumaxHandle, points, numOfPoints, scanSpeed, 0, NULL);
+    //auto stop = std::chrono::high_resolution_clock::now();
+    //auto duration = duration_cast<std::chrono::microseconds>(stop - start);
+    //std::cout << duration.count() / 1000 <<  "ms, " << static_cast<float>(1.0 / (duration.count() / 1000000.0)) << "Hz" << std::endl;
+
+    //int TimeToWait, BufferChanged;
+    //result = Lumax_WaitForBuffer(lumaxHandle, 17, &TimeToWait, &BufferChanged);
     //std::cout << "TimeToWait = " << TimeToWait << std::endl;
     ren.points.clear();
     return 0;

@@ -2,6 +2,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <iostream>
+#include <climits>
 
 bool collision::checkCollision(const object& o1, const object& o2) {
     // if objects consists of no points, check their dimensions

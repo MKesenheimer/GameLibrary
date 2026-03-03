@@ -11,7 +11,6 @@
 #include <cmath>
 #include <sstream>
 #include "point.h"
-#include <iostream>
 
 class algorithms {
 public:
